@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Speed</title>
+        <script src="cards.js"></script>
+        <link rel="stylesheet" href="style.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    </head>
+    <body class="text-bg-success">
+        <div class="text-bg-success text-center">
+            <h1 class="text-bg-success-emphasis" id="loading" style="visibility: hidden;">
+                Loading...
+                <div class="spinner-border text-light" role="status"></div>
+            </h1>
+            <p id="spare" class="center" style="color: white; visibility: hidden;">No viable plays; playing deck shuffled.</p>
+
+            <div class="text-center container-fluid row-fluid">
+                <img class="span-6 card-width" id="left" src="https://deckofcardsapi.com/static/img/back.png">
+                <img class="span-6 card-width" id="right" src="https://deckofcardsapi.com/static/img/back.png">
+            </div>
+
+            <p style="visibility: hidden">Spacing</p>
+            <div class="container row-fluid justify-content-around" style="display: flex">
+                <div class="span-6 border rounded" id="p1Info">&nbsp;&nbsp;20 cards remaining.&nbsp;&nbsp;</div>
+                <div class="span-6 border rounded" id="p2Info">&nbsp;&nbsp;20 cards remaining.&nbsp;&nbsp;</div>
+            </div>
+
+            <div class="container-fluid row-fluid">
+                <div class="text-center container text-bg-success row-fluid">
+                    <img class="span-6 card-width z-n1" id="p1-0" src="https://deckofcardsapi.com/static/img/back.png">
+                    <img class="span-6 card-width z-0 overlap" id="p1-1" src="https://deckofcardsapi.com/static/img/back.png">
+                    <img class="span-6 card-width z-1 overlap" id="p1-2" src="https://deckofcardsapi.com/static/img/back.png">
+                    <img class="span-6 card-width z-2 overlap" id="p1-3" src="https://deckofcardsapi.com/static/img/back.png">
+                    <img class="span-6 card-width z-3 overlap" id="p1-4" src="https://deckofcardsapi.com/static/img/back.png">
+                    <span class="padding"></span>
+                    <img class="span-6 card-width z-n1" id="p2-0" src="https://deckofcardsapi.com/static/img/back.png">
+                    <img class="span-6 card-width z-0 overlap" id="p2-1" src="https://deckofcardsapi.com/static/img/back.png">
+                    <img class="span-6 card-width z-1 overlap" id="p2-2" src="https://deckofcardsapi.com/static/img/back.png">
+                    <img class="span-6 card-width z-2 overlap" id="p2-3" src="https://deckofcardsapi.com/static/img/back.png">
+                    <img class="span-6 card-width z-3 overlap" id="p2-4" src="https://deckofcardsapi.com/static/img/back.png">
+                </div>
+            </div>
+            
+            <p style="visibility: hidden">Spacing</p>
+            <p style="visibility: hidden">Spacing</p>
+            <div class="center">
+                <h1>How to Play</h1>
+                <p style="visibility: hidden">Spacing</p>
+                <h3>Controls</h3>
+                <p>Press space to start the game.</p>
+                <p>The player on the left cycles cards using A and D and places a card using W.</p>
+                <p>The player on the right cycles cards using Left Arrow and Right Arrow and places a card using Up Arrow.</p>
+                <p>When no player has any moves left, the playing decks will automatically shuffle so that there is a viable play.</p>
+                <p>Want to play again? Press space!</p>
+                <p style="visibility: hidden">Spacing</p>
+                <h3>Game</h3>
+                <p>This game replicates the playground ruleset for speed.</p>
+                <p>There are two playing piles which you play your cards on.</p>
+                <p>You can only play a card onto one of the piles if the card you have is one less or one more than the one in the pile.</p>
+                <p>For example, a 4 will play on 5, a Jack will play on 10, an Ace will play on King, and all vice versa.</p>
+                <p>Be the first one to play all your cards to win!</p>
+                <p style="visibility: hidden">Spacing</p>
+            </div>
+        </div>
+    </body>
+</html>
