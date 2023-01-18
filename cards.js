@@ -1,9 +1,22 @@
 let rightCurrent = 0, leftCurrent = 0, cardsPerHand = 20;
 let deckID, p1Lock, p2Lock, spareText, p1Timeout, p2Timeout, spareTimeout;
 let p1Info, p2Info;
-let gameStart, completeStartup;
+let gameStart, completeStartup, allowDuplicates = false;
 let spareHand, p1Hand, p2Hand, leftHand, rightHand;
 let order = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'J', 'Q', 'K'];
+
+document.addEventListener('DOMContentLoaded', () => {
+    let gamemode = document.getElementById('gamemode');
+    gamemode.addEventListener('click', function() 
+    { 
+        if(!gameStart)
+        {
+            let gamemode = document.getElementById('gamemode');
+            gamemode.innerHTML = gamemode.innerHTML == "Original" ? "Duplicates" : "Original";
+            allowDuplicates = !allowDuplicates;
+        }
+    });
+})
 
 document.addEventListener('keydown', (event) => {
     var code = event.code;
@@ -32,22 +45,21 @@ window.addEventListener("keydown", function(e) {
 
 function ProcessCommand(code) {
     if(!p1Lock) {
-        if(code == "KeyA") {
+        if(completeStartup && code == "KeyA") {
             leftCurrent--;
         }
-        else if(code == "KeyD") {
+        else if(completeStartup && code == "KeyD") {
             leftCurrent++;
         }
         else if(code == "KeyW") {
             tryPlay(p1Hand, p1Hand[leftCurrent]);
         }
     }
-    
     if(!p2Lock) {
-        if(code == "ArrowLeft") {
+        if(completeStartup && code == "ArrowLeft") {
             rightCurrent--;
         }
-        else if(code =="ArrowRight") {
+        else if(completeStartup && code =="ArrowRight") {
             rightCurrent++;
         }
         else if(code == "ArrowUp") {
@@ -56,24 +68,29 @@ function ProcessCommand(code) {
     }
 
     if(gameStart) { 
-        drawPiles();
+        if(completeStartup) { drawPiles(); }
         while(trySpare()) {
             if(spareTimeout != null) { clearTimeout(spareTimeout); }
             spareText.style.visibility = "visible";
             spareTimeout = setTimeout(function () {
                 spareText.style.visibility = "hidden";
-            }, 3000);
+            }, 2000);
             setImage('left', leftHand[leftHand.length - 1]['image']);
             setImage('right', rightHand[rightHand.length - 1]['image']);
         } 
     } 
 
-    if(code == "Space") {
-        if(!gameStart) {
+    if(!gameStart) {
+        if(code == "Space") {
             document.getElementById('loading').style.visibility = "visible";
             gameStart = true;
+            let gamemode = document.getElementById('gamemode');
+            gamemode.classList.add('disabled');
             completeStartup = false;
             newGame();
+        }
+        else if(code == "KeyT") {
+
         }
     }  
     
@@ -145,6 +162,8 @@ function tryPlay(playerHand, card) {
         p1Lock = true;
         p2Lock = true;
         gameStart = false;
+        let gamemode = document.getElementById('gamemode');
+        gamemode.classList.remove('disabled');
         completeStartup = false;
         setAllBack();
     }
@@ -204,13 +223,16 @@ function trySpare() {
         p1Lock = true;
         p2Lock = true;
         gameStart = false;
+        let gamemode = document.getElementById('gamemode');
+        gamemode.classList.remove('disabled');
     }
 
     return true;
 }
 
 function withinRange(otherIndex, cardIndex) {
-    return Math.abs(otherIndex - cardIndex) == 1 || Math.abs(otherIndex - cardIndex) == 12;
+    let duplicate = allowDuplicates && otherIndex - cardIndex == 0;
+    return Math.abs(otherIndex - cardIndex) == 1 || Math.abs(otherIndex - cardIndex) == 12 || duplicate;
 }
 
 async function createPiles(data) {
@@ -271,6 +293,7 @@ function setAllBack() {
     document.getElementById('right').src = "https://deckofcardsapi.com/static/img/back.png";
     RemoveHighlight('p1', leftCurrent);
     RemoveHighlight('p2', rightCurrent);
+    console.log("success");
 }
 
 function drawPiles() {
@@ -282,19 +305,19 @@ function drawPiles() {
 }
 function setPlayerInfo() {
     if(p1Lock) {
-        p1Info.innerHTML = "&nbsp;&nbsp;Left is on cooldown.&nbsp;&nbsp;";
+        p1Info.innerHTML = "&nbsp;&nbsp;Left is on Cooldown&nbsp;&nbsp;";
         p1Info.style = "background-color: red";
     }
     else {
-        p1Info.innerHTML = "&nbsp;&nbsp;" + p1Hand.length + " " + (p1Hand.length == 1 ? 'card' : 'cards') + " remaining.&nbsp;&nbsp;";
+        p1Info.innerHTML = "&nbsp;&nbsp;" + p1Hand.length + " " + (p1Hand.length == 1 ? 'Card' : 'Cards') + " Remaining&nbsp;&nbsp;";
         p1Info.style = "background-color: none";
     }
     if(p2Lock) {
-        p2Info.innerHTML = "&nbsp;&nbsp;Right is on cooldown.&nbsp;&nbsp;";
+        p2Info.innerHTML = "&nbsp;&nbsp;Right is on Cooldown&nbsp;&nbsp;";
         p2Info.style = "background-color: red";
     }   
     else {
-        p2Info.innerHTML = "&nbsp;&nbsp;" + p2Hand.length + " " + (p2Hand.length == 1 ? 'card' : 'cards') + " remaining.&nbsp;&nbsp;";
+        p2Info.innerHTML = "&nbsp;&nbsp;" + p2Hand.length + " " + (p2Hand.length == 1 ? 'Card' : 'Cards') + " Remaining&nbsp;&nbsp;";
         p2Info.style = "background-color: none";
     }
 }
